@@ -7,7 +7,8 @@ import { TeamsModule } from './teams/teams.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname,'..','public')
+      rootPath: join(__dirname,'..','public'),
+      exclude: ['/(.*)'],
     }),
     TeamsModule
   ],
