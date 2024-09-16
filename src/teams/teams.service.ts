@@ -1,8 +1,8 @@
-import { BadGatewayException, BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './entities/team.entity';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -35,8 +35,29 @@ export class TeamsService {
     return `This action returns all teams`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} team`;
+  async findOne(termSearch: string) {
+    let team: Team;
+
+    if( !isNaN(+termSearch) ) {
+      team = await this.teamModel.findOne({ idTeam: termSearch});
+    }
+
+    //mongoID
+    if( !team && isValidObjectId( termSearch ) ){
+      team = await this.teamModel.findById( termSearch )
+    }
+
+    //team
+    if( !team ) {
+      team = await this.teamModel.findOne( {name: termSearch.toLowerCase().trim()})
+    }
+
+    //no existe ningun team
+    if( !team )
+      throw new NotFoundException(`Team with id or name: "${termSearch}" not found`);
+    
+
+    return team;
   }
 
   update(id: number, updateTeamDto: UpdateTeamDto) {
