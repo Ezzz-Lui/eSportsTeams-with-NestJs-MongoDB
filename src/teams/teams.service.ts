@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, HttpCode, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './entities/team.entity';
@@ -60,8 +60,19 @@ export class TeamsService {
     return team;
   }
 
-  update(id: number, updateTeamDto: UpdateTeamDto) {
-    return `This action updates a #${id} team`;
+  async update(termSearch: string, updateTeamDto: UpdateTeamDto) {
+    const team = await this.findOne(termSearch);
+    try{
+      await team.updateOne( updateTeamDto, { new: true } )
+      return { ...team.toJSON(), ...updateTeamDto};
+    }
+    catch(error){
+      if(error.code === 11000){
+        throw new BadRequestException(`You cannot add id: "${updateTeamDto.idTeam}" to this team because it already exists.`)
+      }
+      console.log(error)
+      throw new BadGatewayException(`Cant update this team, please check dataabse logs!!!`)
+    }
   }
 
   remove(id: number) {

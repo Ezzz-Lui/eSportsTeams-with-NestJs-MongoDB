@@ -23,9 +23,10 @@ export class TeamsController {
     return this.teamsService.findOne(termSearch);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
-    return this.teamsService.update(+id, updateTeamDto);
+  @HttpCode( HttpStatus.ACCEPTED )
+  @Patch(':termSearch')
+  update(@Param('termSearch') termSearch: string, @Body() updateTeamDto: UpdateTeamDto) {
+    return this.teamsService.update(termSearch, updateTeamDto);
   }
 
   @Delete(':id')
