@@ -18,9 +18,9 @@ export class TeamsController {
     return this.teamsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.teamsService.findOne(+id);
+  @Get(':termSearch')
+  findOne(@Param('termSearch') termSearch: string) {
+    return this.teamsService.findOne(termSearch);
   }
 
   @Patch(':id')
