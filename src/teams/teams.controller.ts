@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus
 import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { IS_MONGO_ID } from 'class-validator';
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id/parse-mongo-id.pipe';
 
 @Controller('teams')
 export class TeamsController {
@@ -30,7 +32,7 @@ export class TeamsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseMongoIdPipe ) id: string) {
     return this.teamsService.remove(id);
   }
 }
