@@ -75,7 +75,9 @@ export class TeamsService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} team`;
+  async remove(id: string) {
+    const team = await this.findOne( id );
+    await team.deleteOne();
+    return `Team with id: ${ id } was removed`;
   }
 }
