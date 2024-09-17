@@ -76,8 +76,9 @@ export class TeamsService {
   }
 
   async remove(id: string) {
-    const team = await this.findOne( id );
-    await team.deleteOne();
-    return `Team with id: ${ id } was removed`;
+    // const team = await this.findOne( id );
+    // await team.deleteOne();
+    const result = this.teamModel.findByIdAndDelete( id )
+    return result;
   }
 }
