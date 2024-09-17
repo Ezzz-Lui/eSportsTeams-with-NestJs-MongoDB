@@ -31,6 +31,6 @@ export class TeamsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.teamsService.remove(+id);
+    return this.teamsService.remove(id);
   }
 }
