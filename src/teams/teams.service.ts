@@ -78,7 +78,11 @@ export class TeamsService {
   async remove(id: string) {
     // const team = await this.findOne( id );
     // await team.deleteOne();
-    const result = this.teamModel.findByIdAndDelete( id )
-    return result;
+    // const result = await this.teamModel.findByIdAndDelete( id )
+    const { deletedCount } = await this.teamModel.deleteOne({ _id: id})
+    if ( deletedCount === 0 )
+      throw new BadRequestException(`MongoID: ${id} not found. Check the id is correct and try again!`)
+    
+    return `Team with id: ${id} was removed`;
   }
 }
