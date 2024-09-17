@@ -11,7 +11,7 @@ import { CommonModule } from './common/common.module';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname,'..','public'),
-      exclude: ['/(.*)'],
+      
     }),
 
     MongooseModule.forRoot('mongodb://localhost:27017/esports-db'),
