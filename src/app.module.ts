@@ -5,6 +5,7 @@ import { TeamsModule } from './teams/teams.module';
 import { Mongoose } from 'mongoose';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 
 @Module({
@@ -20,7 +21,10 @@ import { CommonModule } from './common/common.module';
     TeamsModule,
 
 
-    CommonModule
+    CommonModule,
+
+
+    SeedModule
   ],
   controllers: [],
   providers: [],
